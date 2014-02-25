@@ -33,6 +33,13 @@ class AlbumsControllerTest < ActionController::TestCase
     assert_redirected_to album_pictures_path(@user.profile_name, @album.id)
   end
 
+  test "should create activity on album creation" do
+    sign_in users(:jason)
+    assert_difference('Activity.count') do
+      post :create, profile_name: @user.profile_name, album: { title: @album.title }
+    end
+  end
+
   test "should get edit" do
     sign_in users(:jason)
     get :edit, id: @album, profile_name: @user.profile_name
@@ -45,6 +52,13 @@ class AlbumsControllerTest < ActionController::TestCase
     assert_redirected_to album_pictures_path(@user.profile_name, @album.id)
   end
 
+  test "should create activity on album update" do
+    sign_in users(:jason)
+    assert_difference('Activity.count') do
+      put :update, profile_name: @user.profile_name, album: { title: @album.title }
+    end
+  end
+
   test "should destroy album" do
     sign_in users(:jason)
     assert_difference('Album.count', -1) do
@@ -52,5 +66,12 @@ class AlbumsControllerTest < ActionController::TestCase
     end
 
     assert_redirected_to albums_path
+  end
+
+  test "should create activity on album delete" do
+    sign_in users(:jason)
+    assert_difference('Activity.count') do
+      delete :destroy, profile_name: @user.profile_name, album: { title: @album.title }
+    end
   end
 end
