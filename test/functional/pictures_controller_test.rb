@@ -50,7 +50,7 @@ class PicturesControllerTest < ActionController::TestCase
   test "should update picture" do
     sign_in users(:jason)
     put :update, @default_params.merge(id: @picture, picture: { caption: @picture.caption, description: @picture.description })
-    assert_redirected_to album_pictures_path(assigns(@user.profile_name))
+    assert_redirected_to album_pictures_path(@user.profile_name, @album)
   end
 
   test "should create activity on update" do
@@ -71,7 +71,7 @@ class PicturesControllerTest < ActionController::TestCase
 
   test "should create an activity on destroy" do
     sign_in users(:jason)
-    assert_difference('Activity.count', 1) do
+    assert_difference('Activity.count') do
       delete :destroy, @default_params.merge(id: @picture)
     end
   end

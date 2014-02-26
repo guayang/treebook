@@ -21,7 +21,7 @@ class PicturesController < ApplicationController
   # GET /pictures/1.json
   def show
     @picture = @album.pictures.find(params[:id])
-    add_breadcrumb @picture, album_pictures_path(@album, @picture)
+    add_breadcrumb @picture, album_pictures_path(@user, @album, @picture)
 
     respond_to do |format|
       format.html # show.html.erb
@@ -53,7 +53,7 @@ class PicturesController < ApplicationController
     respond_to do |format|
       if @picture.save
         current_user.create_activity @picture, 'created'
-        format.html { redirect_to album_pictures_path(@album), notice: 'Picture was successfully created.' }
+        format.html { redirect_to album_pictures_path(current_user, @album), notice: 'Picture was successfully created.' }
         format.json { render json: @picture, status: :created, location: @picture }
       else
         format.html { render action: "new" }
@@ -70,7 +70,7 @@ class PicturesController < ApplicationController
     respond_to do |format|
       if @picture.update_attributes(params[:picture])
         current_user.create_activity @picture, 'updated'
-        format.html { redirect_to album_pictures_path(@album), notice: 'Picture was successfully updated.' }
+        format.html { redirect_to album_pictures_path(@user, @album), notice: 'Picture was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -87,7 +87,7 @@ class PicturesController < ApplicationController
 
     respond_to do |format|
       current_user.create_activity @picture, 'deleted'
-      format.html { redirect_to album_pictures_url(@album) }
+      format.html { redirect_to album_pictures_url(@user, @album) }
       format.json { head :no_content }
     end
   end

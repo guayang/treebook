@@ -55,7 +55,7 @@ class AlbumsControllerTest < ActionController::TestCase
   test "should create activity on album update" do
     sign_in users(:jason)
     assert_difference('Activity.count') do
-      put :update, profile_name: @user.profile_name, album: { title: @album.title }
+      put :update, profile_name: @user.profile_name, id: @album, album: { title: @album.title }
     end
   end
 
@@ -71,7 +71,7 @@ class AlbumsControllerTest < ActionController::TestCase
   test "should create activity on album delete" do
     sign_in users(:jason)
     assert_difference('Activity.count') do
-      delete :destroy, profile_name: @user.profile_name, album: { title: @album.title }
+      delete :destroy, profile_name: @user.profile_name, id: @album
     end
   end
 end
