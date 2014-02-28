@@ -77,22 +77,23 @@ Handlebars.registerHelper('activityFeedLink', function() {
 	return new Handlebars.SafeString(Routes.activities_path());
 });
 
-Handlebars.registerHelper('activiyLink', function() {
+Handlebars.registerHelper('activityLink', function() {
 	var link, path, html;
-	var linkText = this.targetable_type.toLowerCase();
+	var activity = this;
+	var linkText = activity.targetable_type.toLowerCase();
 
 	switch (linkText) {
 		case "status":
 			path = Routes.status_path(activity.targetable_id);
 			break;
 		case "album":
-			path = Routes.status_path(activity.profile_name, activity.targetable_id);
+			path = Routes.album_path(activity.profile_name, activity.targetable_id);
 			break;
 		case "picture":
-			path = Routes.status_path(activity.profile_name, activity.targetable_id);
+			path = Routes.album_picture_path(activity.profile_name, activity.targetable_id);
 			break;
 		case "userfriendship":
-			path = Routes.status_path(activity.profile_name);
+			path = Routes.profile_path(activity.profile_name);
 			linkText = "friend"
 			break;
 	}
@@ -101,7 +102,7 @@ Handlebars.registerHelper('activiyLink', function() {
 		path = '#';
 	}
 
-	html = "<li><a href='" + path + "''>" + this.user_name + " " + this.action + " a " + linkText + ".</a></li>"
+	html = "<li><a href='" + path + "''>" + activity.user_name + " " + activity.action + " a " + linkText + ".</a></li>"
 	return new Handlebars.SafeString( html )
 });
 
