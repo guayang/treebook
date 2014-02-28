@@ -27,6 +27,16 @@ var addActivity = function(item) {
 
 	if (!found) {
 		window.loadedActivities.push(item);
+		window.loadedActivities.sort(function(a, b) {
+			var returnValue;
+			if (a.created_at > b.created_at)
+				returnValue = -1;
+			if (b.created_at > a.created_at)
+				returnValue = 1;
+			if (a.created_at == b.created_at)
+				returnValue = -0;
+			return returnValue;
+		});
 	}
 
 	return item;
@@ -35,7 +45,10 @@ var addActivity = function(item) {
 var renderActivites = function() {
 	var source = $('#activities-template').html();
 	var template = Handlebars.compile(source);
-	var html = template({activities: window.loadedActivities});
+	var html = template({
+		activities: window.loadedActivities, 
+		count: window.loadedActivities.length
+	});
 	var $activityFeedLink = $('li#activity-feed');
 
 	$activityFeedLink.addClass('dropdown');
@@ -59,6 +72,10 @@ var pollActivity = function() {
 		}
 	});
 }
+
+Handlebars.registerHelper('activityFeedLink', function() {
+	return new Handlebars.SafeString(Routes.activities_path());
+});
 
 Handlebars.registerHelper('activiyLink', function() {
 	var link, path, html;

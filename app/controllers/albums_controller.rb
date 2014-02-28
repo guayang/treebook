@@ -78,6 +78,7 @@ class AlbumsController < ApplicationController
     @album.destroy
 
     respond_to do |format|
+      current_user.create_activity @album, 'destroy'
       format.html { redirect_to albums_url }
       format.json { head :no_content }
     end
